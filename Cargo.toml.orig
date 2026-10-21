@@ -1,0 +1,249 @@
+[package]
+name = "rightkit-fs"
+version = "0.4.4"
+edition = "2021"
+rust-version = "1.98.0"
+description = "Safe state directories, atomic writes, cross-process locks, owner-only files, and stable file identity for Right Suite apps."
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/bogusyogi/rightkit"
+keywords = ["filesystem", "atomic-write", "file-lock", "symlink", "permissions"]
+categories = ["filesystem"]
+include = ["src/**", "tests/**", "README.md", "LICENSE-MIT", "LICENSE-APACHE"]
+
+[[bin]]
+name = "rightkit-clonefile"
+path = "src/bin/rightkit-clonefile.rs"
+required-features = ["json"]
+
+[[bin]]
+name = "rightkit-swap"
+path = "src/bin/rightkit-swap.rs"
+required-features = ["fs"]
+
+# The e2e suite exercises the identity ledger, which needs `json`.
+[[test]]
+name = "e2e"
+path = "tests/e2e.rs"
+required-features = ["json"]
+
+[[test]]
+name = "clone"
+path = "tests/clone.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "swap"
+path = "tests/swap.rs"
+required-features = ["fs"]
+
+# The failed-acquire cases need the owner record that `json` writes (without it nothing can fail).
+[[test]]
+name = "lock_spawn"
+path = "tests/lock_spawn.rs"
+required-features = ["json"]
+
+# Owner record shapes and `probe_owner`; the owner record needs `json`.
+[[test]]
+name = "lock_owner"
+path = "tests/lock_owner.rs"
+required-features = ["json"]
+
+# Fault-injection seam and the flags each replace call receives.
+[[test]]
+name = "atomic_testing"
+path = "tests/atomic_testing.rs"
+required-features = ["testing"]
+
+# Every integration test names the features it imports, so `--no-default-features` and each
+# single feature compile (a test target whose required features are off is skipped, not built).
+[[test]]
+name = "atomic_digest"
+path = "tests/atomic_digest.rs"
+required-features = ["fs", "digest"]
+
+[[test]]
+name = "publish_file"
+path = "tests/publish_file.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "atomic_exclusive"
+path = "tests/atomic_exclusive.rs"
+required-features = ["fs"]
+
+# Exclusive publish on a filesystem without hard links (forced through the seam).
+[[test]]
+name = "atomic_exclusive_nolink"
+path = "tests/atomic_exclusive_nolink.rs"
+required-features = ["testing"]
+
+[[test]]
+name = "publish_first_free"
+path = "tests/publish_first_free.rs"
+required-features = ["fs"]
+
+# Release-safe seams: needs only `test-seams`, so it also runs in a release-profile test run.
+[[test]]
+name = "atomic_seams"
+path = "tests/atomic_seams.rs"
+required-features = ["test-seams"]
+
+[[test]]
+name = "atomic_options"
+path = "tests/atomic_options.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "atomic_checked"
+path = "tests/atomic_checked.rs"
+required-features = ["fs"]
+
+# Sync events around the check of `commit_checked` need the step log of `atomic::testing`.
+[[test]]
+name = "atomic_checked_sync"
+path = "tests/atomic_checked_sync.rs"
+required-features = ["testing"]
+
+[[test]]
+name = "atomic_privacy"
+path = "tests/atomic_privacy.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "atomic_dacl_windows"
+path = "tests/atomic_dacl_windows.rs"
+required-features = ["fs"]
+
+# Publication order, fail-closed hardening and post-publication errors need the fault seam.
+[[test]]
+name = "atomic_publish"
+path = "tests/atomic_publish.rs"
+required-features = ["testing"]
+
+[[test]]
+name = "atomic_namespace"
+path = "tests/atomic_namespace.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "clone_fallback"
+path = "tests/clone_fallback.rs"
+required-features = ["testing"]
+
+[[test]]
+name = "lock_cross_process"
+path = "tests/lock_cross_process.rs"
+required-features = ["lock"]
+
+[[test]]
+name = "lock_alias"
+path = "tests/lock_alias.rs"
+required-features = ["lock"]
+
+[[test]]
+name = "lock_reparse"
+path = "tests/lock_reparse.rs"
+required-features = ["lock"]
+
+# macOS extended ACLs under the owner-only guarantee (the file is empty off macOS).
+[[test]]
+name = "acl_macos"
+path = "tests/acl_macos.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "state_durability"
+path = "tests/state_durability.rs"
+required-features = ["fs"]
+
+# Needs the directory-sync event log of `state::testing`.
+[[test]]
+name = "state_ancestors"
+path = "tests/state_ancestors.rs"
+required-features = ["testing"]
+
+# M8 owner-gap additions (append, executable, reporting, verified copy).
+[[test]]
+name = "owner_append"
+path = "tests/owner_append.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "owner_executable"
+path = "tests/owner_executable.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "owner_report"
+path = "tests/owner_report.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "owner_sweep"
+path = "tests/owner_sweep.rs"
+required-features = ["fs"]
+
+[[test]]
+name = "owner_verified"
+path = "tests/owner_verified.rs"
+required-features = ["fs", "digest"]
+
+[[test]]
+name = "blake3_verified"
+path = "tests/blake3_verified.rs"
+required-features = ["fs", "blake3"]
+
+[[test]]
+name = "stored_zip"
+path = "tests/stored_zip.rs"
+required-features = ["zip"]
+
+[features]
+default = []
+# Atomic writes, owner-only files, StateDir, netfs, clonefile, and the error type. Pulls
+# libc (unix) and thiserror. `db` uses this layer and no more.
+fs = ["dep:libc", "dep:thiserror"]
+# Cross-process locks (POSIX record locks via libc on unix) on top of `fs`.
+lock = ["fs"]
+# Owner records for locks, the identity ledger, and the clonefile diagnostics binary. The
+# identity ledger uses locks, so `json` implies `lock`.
+json = ["lock", "dep:serde", "dep:serde_json"]
+# `digest` module: streaming and in-memory SHA-256, lowercase hex. No other dependency.
+digest = ["dep:sha2"]
+# BLAKE3 hashing (independent of SHA-256); verified copy also needs `fs`.
+blake3 = ["dep:blake3"]
+# Names the `zip` module for consumers that ask for it (`write_zip`, `read_zip`). The module is
+# compiled without it (std only, since `StoredZipWriter`), so this adds no code and no dependency.
+zip = []
+# Fault injection around the replace call (`atomic::testing`), for consumer tests. Off by default;
+# a release build (no `debug_assertions`) with it enabled fails to compile.
+testing = ["fs", "test-seams"]
+# Release-safe seams for consumer tests (`atomic::seams`): fail a write after N bytes, count file and
+# directory syncs. Per thread, inert until a test installs one, allowed in release builds (unlike
+# `testing`, which refuses to compile there), so an engine's release-profile tests can use it.
+test-seams = ["fs"]
+# `app_dirs` module: one per-user data/local/cache/home resolver with a dev namespace and test
+# isolation. Pulls thiserror (through `fs`) and nothing else.
+app-dirs = ["fs"]
+# Lets `app_dirs` read the QA override variables (RIGHTKIT_QA_DATA_DIR, RIGHTKIT_QA_HOME). Same
+# feature name as rightkit-daemon: one switch isolates both. Off in release builds, which then
+# contain none of the variable names.
+test-mode = ["app-dirs", "dep:serde", "dep:serde_json"]
+
+[dependencies]
+blake3 = { version = "1.8", optional = true }
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", optional = true }
+sha2 = { version = "0.11", default-features = false, optional = true }
+thiserror = { version = "2", optional = true }
+
+[target.'cfg(unix)'.dependencies]
+libc = { version = "0.2", optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[package.metadata.rightkit]
+continuous = false
+continuous_reason = "sleep: bounded retry delay for a transient rename or sharing violation (atomic.rs, RetryPolicy attempts) and lock acquisition poll bounded by LockOptions.timeout (lock.rs); no thread, task, timer, listener, watcher or growing memory (reviewed 2026-10-11); resident-static: the thread_local cells in src/atomic.rs are per-thread fault-injection and sync-count seams inside the testing and test-seams features (testing refuses to compile in a release build, test-seams is off in production), each a fixed-size Cell or a short Vec of steps recorded only while a test arms it; the COUNTER there is a single AtomicU64 (reviewed 2026-10-17)"

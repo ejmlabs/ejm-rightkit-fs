@@ -1,0 +1,25 @@
+{
+  "package": "rightkit-fs",
+  "version": "0.4.4",
+  "upstream": {
+    "registry": "https://crates.io/crates/rightkit-fs/0.4.4",
+    "archive_sha256": "32e10ada6eb1323be113c4a7ee181a877cf3a1698bf66e1d278362e439f0501a",
+    "license": "MIT OR Apache-2.0"
+  },
+  "patch": {
+    "path": "patches/rightkit-fs-0.4.4-direct-create.patch",
+    "sha256": "851acf4fdcfdb3b6c8f34a550893f9bcc3395e8bb7ad980700b23a8ba4fd9b7a"
+  },
+  "source_manifest": {
+    "path": "rightkit-fs.source.json",
+    "sha256": "67788ced93a08f85550a4b1326263a7f91da30fb91c0312a3823e7e88f638c4e"
+  },
+  "source_bytes": {
+    "baseline": 1231147,
+    "patched": 1255377
+  },
+  "scope": "Direct permanent empty-file creation, opt-in same-handle owner-only reads, bounded debug-only creation seam, docs and contract tests.",
+  "dependencies": "Unchanged upstream manifest; fs production feature resolves libc and thiserror 2.0.21. No new dependencies or production background work.",
+  "removal": "Select a maintained upstream release with equivalent direct-create and strict same-handle privacy APIs, pass the same native concurrency/crash/privacy and public-consumer checks, replace the workspace path pin, refresh all consumer locks and remove this vendor tree and patch.",
+  "publication_gate": "Cargo strips local paths during publishing. Do not publish a harness crate that requires this patch until an equivalent maintained upstream release is selected."
+}

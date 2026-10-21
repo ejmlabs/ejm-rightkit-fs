@@ -13,3 +13,10 @@
 Cargo jobs: two. Incremental compilation disabled. Shared CLI target reused.
 Publication status must be checked in the registry; source availability alone
 is not package publication.
+
+`cargo package --locked --features fs` passed. Cargo built the unpacked
+registry archive successfully. Archive SHA256:
+`b0be009076fc51f0a933e9ba0ea058a9cf196ebb0eb46526813c1bb4f72fb9b9`.
+
+`cargo publish --locked --features fs` stopped before upload because no
+crates.io token is configured. GitHub source publication succeeded.

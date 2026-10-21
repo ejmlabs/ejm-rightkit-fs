@@ -1,0 +1,2 @@
+# Preserve the exact reviewed patch, including unified-diff context markers.
+upstream.patch -whitespace

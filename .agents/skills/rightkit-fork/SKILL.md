@@ -1,6 +1,6 @@
 ---
 name: rightkit-fork
-description: Use before you change ejm-rightkit-fs: src/, tests/, upstream.patch, rightkit-fs.source.json, rightkit-fs.provenance.json, Cargo.toml, README.md or FORK.md, or before you backport an upstream fix, rebase on a new upstream release, bump the version, or release.
+description: Use before you change ejm-rightkit-fs, including src/, tests/, upstream.patch, rightkit-fs.source.json, rightkit-fs.provenance.json, Cargo.toml, README.md or FORK.md, or before you backport an upstream fix, rebase on a new upstream release, bump the version, or release.
 ---
 
 # Maintaining the rightkit-fs fork

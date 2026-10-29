@@ -1,6 +1,6 @@
 ---
 name: ejmlabs-rust
-description: Use when writing, reviewing or building Rust in an ejmlabs repo: .rs files, Cargo.toml, Cargo.lock, rust-toolchain.toml, deny.toml, Clippy findings, errors, async and cancellation, limits, Rust tests, benchmarks, dependency or toolchain bumps, or a target directory filling the disk.
+description: Use when writing, reviewing or building Rust in an ejmlabs repo, including .rs files, Cargo.toml, Cargo.lock, rust-toolchain.toml, deny.toml, Clippy findings, errors, async and cancellation, limits, Rust tests, benchmarks, dependency or toolchain bumps, or a target directory filling the disk.
 ---
 
 # Rust at ejmlabs

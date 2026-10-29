@@ -1,6 +1,6 @@
 ---
 name: ejmlabs-writing
-description: Use before you write any prose in an ejmlabs repository or reply: docs, README, CHANGELOG, comments, commit and PR text, UI copy, error messages, help text, site copy, or any claim about speed, security or compatibility.
+description: Use before you write any prose in an ejmlabs repository or reply, including docs, README, CHANGELOG, comments, commit and PR text, UI copy, error messages, help text, site copy, or any claim about speed, security or compatibility.
 ---
 
 # Writing at ejmlabs

@@ -26,7 +26,7 @@ def run() -> int:
     if sys.platform != "darwin":
         print("not run: native macOS required")
         return 77
-    principal = os.environ.get("PROBE_PRINCIPAL", "nobody")
+    principal = "nobody"
     try:
         other_uid = int(subprocess.check_output(["id", "-u", principal], timeout=5))
         if other_uid == os.getuid():

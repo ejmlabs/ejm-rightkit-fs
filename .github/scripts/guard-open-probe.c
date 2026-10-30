@@ -1,4 +1,3 @@
-#if defined(__APPLE__)
 #include <sys/acl.h>
 #include <sys/file.h>
 #include <sys/stat.h>
@@ -67,7 +66,3 @@ int main(int argc, char **argv)
     if (getchar() == EOF) return 1;
     return close(fd) == 0 ? 0 : 1;
 }
-#else
-#include <stdio.h>
-int main(void) { fputs("macOS is required\n", stderr); return 77; }
-#endif

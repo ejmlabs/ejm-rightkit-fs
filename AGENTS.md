@@ -40,9 +40,11 @@ there. A rule below or a repository skill may add to them, never relax them.
 
 ## Rules
 
-- This repository has no CI and is not on the shared `/ready` and `/approve` gate. Its gate is
-  the local checks under Commands, from [RELEASE-VERIFICATION.md](RELEASE-VERIFICATION.md).
-  Run them on the PR head and list each result in the PR before you merge.
+- This repository is not on the shared `/ready` and `/approve` gate. Its local gate is the
+  checks under Commands, from [RELEASE-VERIFICATION.md](RELEASE-VERIFICATION.md). Run them on
+  the PR head and list each result in the PR before you merge. The macOS guard ACL diagnostic
+  runs on pull requests that change the probe and can be dispatched manually; it checks a local
+  filesystem and does not replace the local gate.
 - Production source and tests stay byte-identical to `upstream.patch` applied to the pinned
   upstream archive. Any change to them follows
   [rightkit-fork](.agents/skills/rightkit-fork/SKILL.md) and lands with the patch and both
@@ -68,6 +70,7 @@ there. A rule below or a repository skill may add to them, never relax them.
 | `README.md` | fork notes, then upstream's docs below `## Original upstream documentation` |
 | `FORK.md` | owner, scope, limits and the plan to move back to upstream |
 | `RELEASE-VERIFICATION.md` | the evidence for each release |
+| `.github/scripts/`, `.github/workflows/` | the native macOS guard ACL diagnostic |
 
 ## Commands
 

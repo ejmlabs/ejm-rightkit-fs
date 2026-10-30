@@ -61,7 +61,9 @@ A change to forked source lands in one commit with its records:
 
 ## The gate
 
-No CI runs here. Run these from the repository root and paste each result into the PR:
+The macOS guard ACL diagnostic in `.github/workflows/macos-acl-probe.yml` runs only when its
+probe files change or when manually dispatched. It does not replace the local gate. Run these
+from the repository root and paste each result into the PR:
 
 ```sh
 export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0

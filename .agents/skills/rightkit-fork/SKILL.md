@@ -13,7 +13,8 @@ and `RELEASE-VERIFICATION.md` comes from a run.
 
 - Fork-owned files: the `[package]` metadata in `Cargo.toml` (name, version, description,
   repository, `include`), the part of `README.md` above `## Original upstream documentation`,
-  `FORK.md`, `RELEASE-VERIFICATION.md`, `Cargo.lock` (through Cargo only) and the agent guidance.
+  `FORK.md`, `RELEASE-VERIFICATION.md`, `Cargo.lock` (through Cargo only), the macOS diagnostic
+  under `.github/` and the agent guidance.
 - Forked source: `src/`, `tests/`, the upstream part of `README.md`, `Cargo.toml.orig` and the
   `LICENSE-*` files. Change it only to backport an upstream security fix or to fix the patch's
   own scope: direct permanent empty-file creation, opt-in same-handle owner-only reads, the
@@ -61,9 +62,9 @@ A change to forked source lands in one commit with its records:
 
 ## The gate
 
-The macOS guard ACL diagnostic in `.github/workflows/macos-acl-probe.yml` runs only when its
-probe files change or when manually dispatched. It does not replace the local gate. Run these
-from the repository root and paste each result into the PR:
+The macOS guard ACL diagnostic in `.github/workflows/macos-acl-probe.yml` runs on pull requests
+that change its probe or workflow files, or when manually dispatched. It does not replace the
+local gate. Run these from the repository root and paste each result into the PR:
 
 ```sh
 export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0
